@@ -37,7 +37,7 @@ jobs:
       - name: uplodad artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ${{matrix.Project}}-${{ github.run_id }}
+          name: ml-artifact-${{matrix.python}}-${{ github.run_id }}
           path: artifacts
      
 
