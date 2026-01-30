@@ -1,1 +1,47 @@
+name: Train and save hello-world model
+
+on:
+  push:
+    branches: [main]
+  pull-requests:
+    branches: [main]
+  
+jobs:
+  job-pip:
+    name: Train and save model
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: [3.11, 3.12]
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: python-install
+        uses: actions/setup-python@v4
+          with:
+            python-version: ${{matrix.python}}
+
+      - name: Upgrade pip
+        run: python -m pip install --upgrade pip setuptools wheel
+
+      - name: Install Project dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Train the model
+        run: |
+          python train.py
+          ls -la artifacts
+        
+      - name: uplodad artifacts
+        uses: actions/upload-artifact@v4
+          with:
+            name: ${{matrix.Project}}-${{github.run_id}}
+            path: artifacts
+     
+
+
+
+  
 
